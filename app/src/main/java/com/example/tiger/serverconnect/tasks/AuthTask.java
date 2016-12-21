@@ -17,7 +17,8 @@ public class AuthTask extends AsyncTask<Void, Void, Response>{
 
     @Override
     protected Response doInBackground(Void... params) {
-        return null;
+        Response response=null;
+        return response;
     }
 
     @Override
