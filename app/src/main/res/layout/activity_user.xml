@@ -52,7 +52,7 @@
         android:orientation="horizontal"
         android:id="@+id/rg"
         android:layout_toRightOf="@id/tvSex"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="17dp">
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
