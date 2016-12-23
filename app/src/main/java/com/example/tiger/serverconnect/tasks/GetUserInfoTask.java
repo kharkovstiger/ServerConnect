@@ -1,30 +1,27 @@
 package com.example.tiger.serverconnect.tasks;
 
 import android.os.AsyncTask;
-import android.util.Base64;
 
 import com.example.tiger.serverconnect.providers.HttpProvider;
 import com.example.tiger.serverconnect.providers.Response;
 
 import java.io.IOException;
 
-public class AuthTask extends AsyncTask<Void, Void, Response>{
-    private AuthListener listener;
-    private String email;
-    private String password;
+public class GetUserInfoTask extends AsyncTask<Void, Void, Response>{
 
-    public AuthTask(AuthListener listener, String email, String password) {
+    private String sessionId;
+    private GetUserInfoTaskListener listener;
+
+    public GetUserInfoTask(String sessionId, GetUserInfoTaskListener listener) {
+        this.sessionId = sessionId;
         this.listener = listener;
-        this.email = email;
-        this.password = password;
     }
 
     @Override
     protected Response doInBackground(Void... params) {
         Response response=null;
-        final String basicAuth = "Basic " + Base64.encodeToString((email+":"+password).getBytes(), Base64.NO_WRAP);
         try {
-            response = HttpProvider.getInstance().get(basicAuth,null,"/me");
+            response = HttpProvider.getInstance().get(null,sessionId,"/me");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,10 +32,10 @@ public class AuthTask extends AsyncTask<Void, Void, Response>{
     protected void onPostExecute(Response response) {
         super.onPostExecute(response);
         if (listener!=null)
-            listener.authCallBack(response);
+            listener.getUserCallback(response);
     }
 
-    public interface AuthListener {
-        void authCallBack(Response response);
+    public interface GetUserInfoTaskListener {
+        void getUserCallback(Response response);
     }
 }
